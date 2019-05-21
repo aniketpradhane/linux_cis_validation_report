@@ -1,7 +1,7 @@
 #!/bin/bash
 #Ensure mounting of hfs filesystems is disabled
 > /tmp/logs
-
+#CIS Points for Logs
 v1="Ensure mounting of cramfs filesystems is disabled"
 v2="Ensure mounting of freevxfs filesystems is disabled"
 v3="Ensure mounting of jffs2 filesystems is disabled"
@@ -11,7 +11,7 @@ v6="Ensure mounting of squashfs filesystems is disabled"
 v7="Ensure mounting of udf filesystems is disabled"
 v8="Ensure mounting of FAT filesystems is disabled"
 ot="install"
-
+#Validation steps for Disabled Unwanted FS
 cmd1="`/sbin/modprobe -n -v cramfs | grep -i 'install' | cut -d ' ' -f 1`"
 cmd2="`/sbin/modprobe -n -v freevxfs | grep -i 'install' | cut -d ' ' -f 1`"
 cmd3="`/sbin/modprobe -n -v jffs2 | grep -i 'install' | cut -d ' ' -f 1`"
@@ -61,3 +61,13 @@ if [[ $cmd8 == $ot ]];then
 else
         echo "$v8,No" >> /tmp/logs
 fi
+###################### 1.1.2 Ensure separate partition exists for /tmp###################
+v9="Ensure separate partition exists for /tmp"
+grep "[[:space:]]/tmp[[:space:]]" /etc/fstab
+if [ $? -eq 0 ];then
+	echo "$v9,Yes" >> /tmp/logs
+else
+	echo "$v9,No" >>  /tmp/logs
+fi
+
+
