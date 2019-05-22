@@ -1,0 +1,130 @@
+---
+ - name: CIS Validation
+   hosts: localhost
+
+
+
+   tasks:
+      - name: Ensure mounting of cramfs filesystems is disabled
+        shell: /sbin/modprobe -n -v cramfs | grep -i 'install' | cut -d ' ' -f 1
+        register: v1_out
+
+      - debug:
+          var: v1_out
+
+      - name: Printinfo
+        local_action: shell echo "Ensure mounting of cramfs filesystems is disabled,Yes" >> file
+        when: v1_out.stdout == "install"
+      - name: Printinfo
+        local_action: shell echo "Ensure mounting of cramfs filesystems is disabled,No" >> file
+        when: v1_out.stdout != "install"
+########NewSet
+      - name: Ensure mounting of freevxfs  filesystems is disabled
+        shell: /sbin/modprobe -n -v freevxfs  | grep -i 'install' | cut -d ' ' -f 1
+        register: v2_out
+      - debug:
+          var: v_out
+      - name: Printinfo
+        local_action: shell echo "Ensure mounting of freevxfs filesystems is disabled,Yes" >> file
+        when: v2_out.stdout == "install"
+      - name: Printinfo
+        local_action: shell echo "Ensure mounting of freevxfs filesystems is disabled,No" >> file
+        when: v2_out.stdout != "install"
+
+      - name: Ensure mounting of jffs2  filesystems is disabled
+        shell: /sbin/modprobe -n -v jffs2  | grep -i 'install' | cut -d ' ' -f 1
+        register: v3_out
+      - debug:
+          var: v3_out
+      - name: Printinfo
+        local_action: shell echo "Ensure mounting of jffs2  filesystems is disabled,Yes" >> file
+        when: v3_out.stdout == "install"
+      - name: Printinfo
+        local_action: shell echo "Ensure mounting of jffs2  filesystems is disabled,No" >> file
+        when: v3_out.stdout != "install"
+
+      - name: Ensure mounting of hfs   filesystems is disabled
+        shell: /sbin/modprobe -n -v hfs | grep -i 'install' | cut -d ' ' -f 1
+        register: v4_out
+      - debug:
+          var: v4_out
+      - name: Printinfo
+        local_action: shell echo "Ensure mounting of hfs   filesystems is disabled,Yes" >> file
+        when: v4_out.stdout == "install"
+      - name: Printinfo
+        local_action: shell echo "Ensure mounting of hfs   filesystems is disabled,No" >> file
+        when: v4_out.stdout != "install"  
+  
+      - name: Ensure mounting of hfsplus filesystems is disabled
+        shell: /sbin/modprobe -n -v hfsplus | grep -i 'install' | cut -d ' ' -f 1
+        register: v5_out
+      - debug:
+          var: v5_out
+      - name: Printinfo
+        local_action: shell echo "Ensure mounting of hfsplus filesystems is disabled,Yes" >> file
+        when: v5_out.stdout == "install"
+      - name: Printinfo
+        local_action: shell echo "Ensure mounting of hfsplus filesystems is disabled,No" >> file
+        when: v5_out.stdout != "install"
+       
+      - name: Ensure mounting of squashfs filesystems is disabled
+        shell: /sbin/modprobe -n -v squashfs | grep -i 'install' | cut -d ' ' -f 1
+        register: v6_out
+      - debug:
+          var: v6_out
+      - name: Printinfo
+        local_action: shell echo "Ensure mounting of squashfs  filesystems is disabled,Yes" >> file
+        when: v6_out.stdout == "install"
+      - name: Printinfo
+        local_action: shell echo "Ensure mounting of squashfs  filesystems is disabled,No" >> file
+        when: v6_out.stdout != "install"
+      
+      - name: Ensure mounting of udf  filesystems is disabled
+        shell: /sbin/modprobe -n -v udf  | grep -i 'install' | cut -d ' ' -f 1
+        register: v7_out
+      - debug:
+          var: v7_out
+      - name: Printinfo
+        local_action: shell echo "Ensure mounting of udf filesystems is disabled,Yes" >> file
+        when: v7_out.stdout == "install"
+      - name: Printinfo
+        local_action: shell echo "Ensure mounting of udf filesystems is disabled,No" >> file
+        when: v7_out.stdout != "install"
+
+      - name: Ensure mounting of vfat filesystems is disabled
+        shell: /sbin/modprobe -n -v vfat | grep -i 'install' | cut -d ' ' -f 1
+        register: v8_out
+      - debug:
+          var: v8_out
+      - name: Printinfo
+        local_action: shell echo "Ensure mounting of vfat  filesystems is disabled,Yes" >> file
+        when: v8_out.stdout == "install"
+      - name: Printinfo
+        local_action: shell echo "Ensure mounting of vfat filesystems is disabled,No" >> file
+        when: v8_out.stdout != "install"
+##########        
+      - name: Ensure separate partition exists for /tmp
+        shell: "grep '[[:space:]]/tmp[[:space:]]' /etc/fstab"
+        register: tmp_out
+        ignore_errors: yes
+      - debug:
+          var: tmp_out   
+      - name: Printinfo
+        local_action: shell echo " Ensure separate partition exists for /tmp,Yes" >> file
+        when: tmp_out.rc == "0"
+      - name: Printinfo
+        local_action: shell echo " Ensure separate partition exists for /tmp,No" >> file
+        when: tmp_out.rc != "0" 
+      
+      - name: Ensure separate partition exists for /tmp
+        shell: " grep /tmp /etc/fstab | grep nodev"
+        register: tmp1_out
+        ignore_errors: yes
+      - debug:
+          var: tmp1_out
+      - name: Printinfo
+        local_action: shell echo "Set nodev,nosuid,noexec option for /tmp Partition,Yes" >> file
+        when: tmp1_out.rc == "0"
+      - name: Printinfo
+        local_action: shell echo "Set nodev,nosuid,noexec option for /tmp Partition,No" >> file
+        when: tmp1_out.rc != "0"    
