@@ -111,10 +111,10 @@
           var: tmp_out   
       - name: Printinfo
         local_action: shell echo " Ensure separate partition exists for /tmp,Yes" >> file
-        when: tmp_out.rc == "0"
+        when: tmp_out.rc == 0
       - name: Printinfo
         local_action: shell echo " Ensure separate partition exists for /tmp,No" >> file
-        when: tmp_out.rc != "0" 
+        when: tmp_out.rc != 0 
       
       - name: Ensure separate partition exists for /tmp
         shell: " grep /tmp /etc/fstab | grep nodev"
@@ -124,10 +124,10 @@
           var: tmp1_out
       - name: Printinfo
         local_action: shell echo "Set nodev,nosuid,noexec option for /tmp Partition,Yes" >> file
-        when: tmp1_out.rc == "0"
+        when: tmp1_out.rc == 0
       - name: Printinfo
         local_action: shell echo "Set nodev,nosuid,noexec option for /tmp Partition,No" >> file
-        when: tmp1_out.rc != "0"   
+        when: tmp1_out.rc != 0  
 
 ##############
       - name: Create Separate Partition for /var            
@@ -138,10 +138,10 @@
           var: var_out
       - name: Printinfo
         local_action: shell echo "Ensure Separate Partition for /var,Yes" >> file
-        when: var_out.rc == "0"
+        when: var_out.rc == 0
       - name: Printinfo
         local_action: shell echo "Ensure Separate Partition for /var,No" >> file
-        when: var_out.rc != "0"
+        when: var_out.rc != 0
 #############################
       - name: Bind Mount the /var/tmp directory to /tmp
         shell: "grep -e '^/tmp' /etc/fstab | grep /var/tmp"
@@ -151,10 +151,10 @@
           var: tmp3_out
       - name: Printinfo
         local_action: shell echo "Bind Mount the /var/tmp directory to /tmp,Yes" >> file
-        when: tmp3_out.rc == "0"
+        when: tmp3_out.rc == 0
       - name: Printinfo
         local_action: shell echo "Bind Mount the /var/tmp directory to /tmp,No" >> file
-        when: tmp3_out.rc != "0"
+        when: tmp3_out.rc != 0
 #########################
       - name: Bind Mount the /var/tmp directory to /tmp
         shell: "grep -e '^/tmp' /etc/fstab | grep /var/tmp"
@@ -164,10 +164,10 @@
           var: tmp3_out
       - name: Printinfo
         local_action: shell echo "Bind Mount the /var/tmp directory to /tmp,Yes" >> file
-        when: tmp3_out.rc == "0"
+        when: tmp3_out.rc == 0
       - name: Printinfo
         local_action: shell echo "Bind Mount the /var/tmp directory to /tmp,No" >> file
-        when: tmp3_out.rc != "0" 
+        when: tmp3_out.rc != 0 
       - name: Ensure nodev option set on /tmp partition
         shell:  grep /tmp /etc/fstab | grep nodev
         register: tmp4_out
@@ -176,10 +176,10 @@
           var: tmp4_out
       - name: Printinfo
         local_action: shell echo "Ensure nodev option set on /tmp partition,Yes" >> file
-        when: tmp4_out.rc == "0"
+        when: tmp4_out.rc == 0
       - name: Printinfo
         local_action: shell echo "Ensure nodev option set on /tmp partition,No" >> file
-        when: tmp4_out.rc != "0"
+        when: tmp4_out.rc != 0
 
       - name: Ensure noexec option set on /tmp partition
         shell:  grep /tmp /etc/fstab | grep noexec
@@ -189,10 +189,10 @@
           var: tmp5_out
       - name: Printinfo
         local_action: shell echo "Ensure noexec option set on /tmp partition,Yes" >> file
-        when: tmp5_out.rc == "0"
+        when: tmp5_out.rc == 0
       - name: Printinfo
         local_action: shell echo "Ensure noexec option set on /tmp partition,No" >> file
-        when: tmp5_out.rc != "0"
+        when: tmp5_out.rc != 0
         
 
       - name: Ensure nosuid option set on /tmp partition
@@ -203,10 +203,10 @@
           var: tmp6_out
       - name: Printinfo
         local_action: shell echo "Ensure nosuid option set on /tmp partition,Yes" >> file
-        when: tmp6_out.rc == "0"
+        when: tmp6_out.rc == 0
       - name: Printinfo
         local_action: shell echo "Ensure nosuid option set on /tmp partition,No" >> file
-        when: tmp6_out.rc != "0" 
+        when: tmp6_out.rc != 0 
 
       - name: Ensure separate partition exists for /var/log 
         shell: "grep '[[:space:]]/var/log[[:space:]]' /etc/fstab"
@@ -216,10 +216,10 @@
           var: var2_out
       - name: Printinfo
         local_action: shell echo "Ensure separate partition exists for /var/log,Yes" >> file
-        when: var2_out.rc == "0"
+        when: var2_out.rc == 0
       - name: Printinfo
         local_action: shell echo "Ensure separate partition exists for /var/log,No" >> file
-        when: var2_out.rc != "0"
+        when: var2_out.rc != 0
 
       - name: Ensure separate partition exists for /var/log/audit 
         shell:  "grep '[[:space:]]/var/log/audit[[:space:]]' /etc/fstab"
@@ -229,10 +229,10 @@
           var: var6_out
       - name: Printinfo
         local_action: shell echo "Ensure separate partition exists for /var/log/audit,Yes" >> file
-        when: var6_out.rc == "0"
+        when: var6_out.rc == 0
       - name: Printinfo
         local_action: shell echo "Ensure separate partition exists for /var/log/audit,No" >> file
-        when: var6_out.rc != "0"
+        when: var6_out.rc != 0
         
 
       - name: Ensure separate partition exists for /home 
@@ -243,10 +243,10 @@
           var: var7_out
       - name: Printinfo
         local_action: shell echo "Ensure separate partition exists for /home,Yes" >> file
-        when: var7_out.rc == "0"
+        when: var7_out.rc == 0
       - name: Printinfo
         local_action: shell echo "Ensure separate partition exists for /home,No" >> file
-        when: var7_out.rc != "0"    
+        when: var7_out.rc != 0    
      
       - name: Ensure nodev option set on /home partition
         shell:  grep /home /etc/fstab | grep nodev
@@ -256,10 +256,10 @@
           var: var8_out
       - name: Printinfo
         local_action: shell echo "Ensure nodev option set on /home partition,Yes" >> file
-        when: var8_out.rc == "0"
+        when: var8_out.rc == 0
       - name: Printinfo
         local_action: shell echo "Ensure nodev option set on /home partition,No" >> file
-        when: var8_out.rc != "0"
+        when: var8_out.rc != 0
 
       - name: Ensure nodev option set on /run/shm partition 
         shell:   grep /run/shm /etc/fstab | grep nodev
@@ -269,10 +269,10 @@
           var: var9_out
       - name: Printinfo
         local_action: shell echo "Ensure nodev option set on /run/shm partition,Yes" >> file
-        when: var9_out.rc == "0"
+        when: var9_out.rc == 0
       - name: Printinfo
         local_action: shell echo "Ensure nodev option set on /run/shm partition,No" >> file
-        when: var9_out.rc != "0"
+        when: var9_out.rc != 0
         
 
       - name: Ensure nosuid option set on /run/shm partition 
@@ -283,7 +283,72 @@
           var: var10_out
       - name: Printinfo
         local_action: shell echo "Ensure nosuid option set on /run/shm partition,Yes" >> file
-        when: var10_out.rc == "0"
+        when: var10_out.rc == 0
       - name: Printinfo
         local_action: shell echo "Ensure nosuid option set on /run/shm partition,No" >> file
-        when: var10_out.rc != "0"       
+        when: var10_out.rc != 0       
+#####################
+      - name: Ensure sticky bit is set on all world-writable directories 
+        shell:  df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -type d \( -perm -0002 -a ! -perm -1000 \)
+        register: var11_out
+        ignore_errors: yes
+      - debug:
+          var: var11_out
+      - name: Printinfo
+        local_action: shell echo "Ensure sticky bit is set on all world-writable directories,Yes" >> file
+        when: var11_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure sticky bit is set on all world-writable directories,No" >> file
+        when: var11_out.rc != 0
+
+      - name: Disable Automounting 
+        shell:  initctl show-config autofs
+        register: var12_out
+        ignore_errors: yes
+      - debug:
+          var: var12_out
+      - name: Printinfo
+        local_action: shell echo "Disable Automounting,Yes" >> file
+        when: var12_out.rc != 0
+      - name: Printinfo
+        local_action: shell echo "Disable Automounting,No" >> file
+        when: var12_out.rc == 0    
+      
+      - name: Ensure AIDE is installed 
+        shell:  dpkg -s aide 
+        register: var13_out
+        ignore_errors: yes
+      - debug:
+          var: var13_out
+      - name: Printinfo
+        local_action: shell echo "Ensure AIDE is installed,Yes" >> file
+        when: var13_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure AIDE is installed,No" >> file
+        when: var13_out.rc != 0   
+     
+      - name: Ensure AIDE is installed | DB validate
+        shell:  "ls -lart /var/lib/aide/aide.db.new"
+        register: var14_out
+        ignore_errors: yes
+      - debug:
+          var: var14_out
+      - name: Printinfo
+        local_action: shell echo "Ensure AIDE is installed | DB validate,Yes" >> file
+        when: var14_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure AIDE is installed | DB validate,No" >> file
+        when: var14_out.rc != 0  
+ 
+      - name: Ensure filesystem integrity is regularly checked
+        shell:  "crontab -u root -l | grep aide"
+        register: var15_out
+        ignore_errors: yes
+      - debug:
+          var: var15_out
+      - name: Printinfo
+        local_action: shell echo "Ensure filesystem integrity is regularly checked,Yes" >> file
+        when: var15_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure filesystem integrity is regularly checked,No" >> file
+        when: var15_out.rc != 0
