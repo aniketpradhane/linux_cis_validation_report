@@ -470,15 +470,328 @@
         local_action: shell echo " Ensure prelink is disabled,Yes" >> file
         when: var24_out.rc != 0   
 
-      - name:  Ensure SELinux is not disabled in bootloader configuration 
+      - name:  Ensure SELinux is not disabled in bootloader configuration and enable selinux enforcing
         shell:  'grep SELINUX=enforcing /etc/selinux/config'
         register: var25_out
         ignore_errors: yes
       - debug:
           var: var25_out
       - name: Printinfo
-        local_action: shell echo " Ensure SELinux is not disabled in bootloader configuration,Yes" >> file
+        local_action: shell echo "Ensure SELinux is not disabled in bootloader configuration and enable selinux enforcing,Yes" >> file
         when: var25_out.rc == 0
       - name: Printinfo
-        local_action: shell echo " Ensure SELinux is not disabled in bootloader configuration,No" >> file
+        local_action: shell echo "Ensure SELinux is not disabled in bootloader configuration and enable selinux enforcing,No" >> file
         when: var25_out.rc != 0   
+      
+      - name: Ensure AppArmor are installed
+        shell:  'apparmor_status'
+        register: var27_out
+        ignore_errors: yes
+      - debug:
+          var: var27_out
+      - name: Printinfo
+        local_action: shell echo "Ensure AppArmor are installed ,Yes" >> file
+        when: var27_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure AppArmor are installed ,No" >> file
+        when: var27_out.rc != 0
+
+      - name: Ensure permissions on Permision on motd file
+        shell: '/bin/ls -l /etc/motd | grep "^-rw-r--r--"'
+        register: var28_out
+        ignore_errors: yes
+      - debug:
+          var: var28_out
+      - name: Printinfo
+        local_action: shell echo "Ensure permissions on motd file,Yes" >> file
+        when: var28_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure permissions on motd file,No" >> file
+        when: var28_out.rc != 0  
+
+      
+      - name: Ensure permissions on Permision on issue file
+        shell: '/bin/ls -l /etc/issue | grep "^-rw-r--r--"'
+        register: var29_out
+        ignore_errors: yes
+      - debug:
+          var: var29_out
+      - name: Printinfo
+        local_action: shell echo "Ensure permissions on issue file,Yes" >> file
+        when: var29_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure permissions on issue file,No" >> file
+        when: var29_out.rc != 0  
+
+
+      - name: Ensure permissions on Permision on issue.net file
+        shell: '/bin/ls -l /etc/issue.net | grep "^-rw-r--r--"'
+        register: var30_out
+        ignore_errors: yes
+      - debug:
+          var: var30_out
+      - name: Printinfo
+        local_action: shell echo "Ensure permissions on issue.net file,Yes" >> file
+        when: var30_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure permissions on issue.net file,No" >> file
+        when: var30_out.rc != 0 
+
+
+      - name: Ensure local login warning banner is configured properly | remove os info
+        shell:  "grep -e '(\\v|\\r|\\m|\\s)' /etc/motd"
+        register: var31_out
+        ignore_errors: yes
+      - debug:
+          var: var31_out
+      - name: Printinfo
+        local_action: shell echo "Ensure local login warning banner is configured properly | remove os info ,Yes" >> file
+        when: var31_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure local login warning banner is configured properly | remove os info,No" >> file
+        when: var31_out.rc != 0
+
+      - name: Ensure local login warning banner is configured properly | remove os info
+        shell: "grep -e '(\\v|\\r|\\m|\\s)' /etc/issue"
+        register: var32_out
+        ignore_errors: yes
+      - debug:
+          var: var32_out
+      - name: Printinfo
+        local_action: shell echo "Ensure local login warning banner is configured properly | remove os info,Yes" >> file
+        when: var32_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure local login warning banner is configured properly | remove os info,No" >> file
+        when: var32_out.rc != 0  
+
+      
+      - name: Ensure local login warning banner is configured properly | remove os info
+        shell: "grep -e '(\\v|\\r|\\m|\\s)' /etc/issue.net"
+        register: var33_out
+        ignore_errors: yes
+      - debug:
+          var: var33_out
+      - name: Printinfo
+        local_action: shell echo "Ensure local login warning banner is configured properly | remove os info,Yes" >> file
+        when: var33_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure local login warning banner is configured properly | remove os info,No" >> file
+        when: var33_out.rc != 0   
+
+      - name: Ensure ntp is Installed
+        shell:  "dpkg -s ntp"
+        register: var34_out
+        ignore_errors: yes
+      - debug:
+          var: var34_out
+      - name: Printinfo
+        local_action: shell echo "Ensure ntp is Installed,Yes" >> file
+        when: var34_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure ntp is Installed,No" >> file
+        when: var34_out.rc != 0
+
+      - name: Ensure ntp is configured
+        shell: 'grep "restrict .* default" /etc/ntp.conf'
+        register: var35_out
+        ignore_errors: yes
+      - debug:
+          var: var35_out
+      - name: Printinfo
+        local_action: shell echo "Ensure ntp is configured,Yes" >> file
+        when: var35_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure ntp is configured,No" >> file
+        when: var35_out.rc != 0 
+      
+      - name: Ensure X Window System is not installed
+        shell:  "dpkg -l xserver-xorg-core"
+        register: var36_out
+        ignore_errors: yes
+      - debug:
+          var: var36_out
+      - name: Printinfo
+        local_action: shell echo "Ensure X Window System is not installed,Yes" >> file
+        when: var36_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure X Window System is not installed,No" >> file
+        when: var36_out.rc != 0
+
+      - name: Ensure Avahi Server is not enabled
+        shell: 'grep ^start /etc/init/avahi-daemon.conf'
+        register: var37_out
+        ignore_errors: yes
+      - debug:
+          var: var37_out
+      - name: Printinfo
+        local_action: shell echo "Ensure Avahi Server is not enabled,Yes" >> file
+        when: var37_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure Avahi Server is not enabled,No" >> file
+        when: var37_out.rc != 0  
+
+      - name: Ensure CUPS is not enabled
+        shell: 'grep ^start /etc/init/cups.conf'
+        register: var38_out
+        ignore_errors: yes
+      - debug:
+          var: var38_out
+      - name: Printinfo
+        local_action: shell echo "Ensure CUPS is not enabled,Yes" >> file
+        when: var38_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure CUPS is not enabled,No" >> file
+        when: var38_out.rc != 0
+  
+      - name: Ensure DHCP Server is not enabled
+        shell: 'grep ^start /etc/init/isc-dhcp-server.conf'
+        register: var39_out
+        ignore_errors: yes
+      - debug:
+          var: var39_out
+      - name: Printinfo
+        local_action: shell echo "Ensure DHCP Server is not enabled,Yes" >> file
+        when: var39_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure DHCP Server is not enabled,No" >> file
+        when: var39_out.rc != 0
+
+
+      
+      - name: Ensure DHCP Server is not enabled
+        shell: 'grep ^start /etc/init/isc-dhcp-server6.conf'
+        register: var40_out
+        ignore_errors: yes
+      - debug:
+          var: var40_out
+      - name: Printinfo
+        local_action: shell echo "Ensure DHCP Server is not enabled,Yes" >> file
+        when: var40_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure DHCP Server is not enabled,No" >> file
+        when: var40_out.rc != 0
+
+
+
+      - name: Ensure LDAP server is not enabled
+        shell: 'dpkg -s slapd'
+        register: var41_out
+        ignore_errors: yes
+      - debug:
+          var: var41_out
+      - name: Printinfo
+        local_action: shell echo "Ensure LDAP server is not enabled,Yes" >> file
+        when: var41_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure LDAP server is not enabled,No" >> file
+        when: var41_out.rc != 0  
+
+      
+      - name:  Ensure NFS and RPC are not enabled 
+        shell: 'ls /etc/rc*.d/S*nfs-kernel-server'
+        register: var42_out
+        ignore_errors: yes
+      - debug:
+          var: var42_out
+      - name: Printinfo
+        local_action: shell echo "Ensure NFS and RPC are not enabled ,Yes" >> file
+        when: var42_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure NFS and RPC are not enabled ,No" >> file
+        when: var42_out.rc != 0  
+
+      
+      - name: Ensure DNS Server is not enabled 
+        shell: 'ls /etc/rc*.d/S*bind9'
+        register: var43_out
+        ignore_errors: yes
+      - debug:
+          var: var43_out
+      - name: Printinfo
+        local_action: shell echo "Ensure NFS and RPC are not enabled ,Yes" >> file
+        when: var43_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure NFS and RPC are not enabled ,No" >> file
+        when: var43_out.rc != 0  
+
+      
+      - name:  Ensure FTP Server is not enabled 
+        shell: 'grep ^start /etc/init/vsftpd.conf'
+        register: var44_out
+        ignore_errors: yes
+      - debug:
+          var: var44_out
+      - name: Printinfo
+        local_action: shell echo " Ensure FTP Server is not enabled,Yes" >> file
+        when: var44_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo " Ensure FTP Server is not enabled,No" >> file
+        when: var44_out.rc != 0   
+
+      - name:  Ensure HTTP server is not enabled
+        shell: 'ls /etc/rc*.d/S*apache2'
+        register: var45_out
+        ignore_errors: yes
+      - debug:
+          var: var45_out
+      - name: Printinfo
+        local_action: shell echo "Ensure HTTP server is not enabled,Yes" >> file
+        when: var45_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure HTTP server is not enabled,No" >> file
+        when: var45_out.rc != 0 
+
+
+      - name:  Ensure IMAP and POP3 server is not enabled
+        shell: 'grep ^start /etc/init/dovecot.conf'
+        register: var46_out
+        ignore_errors: yes
+      - debug:
+          var: var46_out
+      - name: Printinfo
+        local_action: shell echo "Ensure IMAP and POP3 server is not enabled,Yes" >> file
+        when: var46_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure IMAP and POP3 server is not enabled,No" >> file
+        when: var46_out.rc != 0 
+
+
+      - name:  Ensure Samba is not enabled
+        shell: 'grep ^start /etc/init/smbd.conf'
+        register: var47_out
+        ignore_errors: yes
+      - debug:
+          var: var47_out
+      - name: Printinfo
+        local_action: shell echo "Ensure Samba is not enabled,Yes" >> file
+        when: var47_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure Samba is not enabled,No" >> file
+        when: var47_out.rc != 0   
+
+
+      - name:  Ensure HTTP Proxy Server is not enabled
+        shell: 'grep ^start /etc/init/squid3.conf'
+        register: var48_out
+        ignore_errors: yes
+      - debug:
+          var: var48_out
+      - name: Printinfo
+        local_action: shell echo "Ensure HTTP Proxy Server is not enabled,Yes" >> file
+        when: var48_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure HTTP Proxy Server is not enabled,No" >> file
+        when: var48_out.rc != 0  
+
+      - name:  Ensure SNMP Server is not enabled
+        shell: 'ls /etc/rc*.d/S*snmpd'
+        register: var49_out
+        ignore_errors: yes
+      - debug:
+          var: var49_out
+      - name: Printinfo
+        local_action: shell echo "Ensure SNMP Server is not enabled,Yes" >> file
+        when: var49_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure SNMP Server is not enabled,No" >> file
+        when: var49_out.rc != 0    
