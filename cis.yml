@@ -352,3 +352,133 @@
       - name: Printinfo
         local_action: shell echo "Ensure filesystem integrity is regularly checked,No" >> file
         when: var15_out.rc != 0
+
+      - name: Ensure permissions on bootloader config are configured
+        shell:  'stat -L -c "%u %g" /boot/grub/grub.cfg | egrep "0 0"'
+        register: var16_out
+        ignore_errors: yes
+      - debug:
+          var: var16_out
+      - name: Printinfo
+        local_action: shell echo "Ensure permissions on bootloader config are configured,Yes" >> file
+        when: var16_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure permissions on bootloader config are configured,No" >> file
+        when: var16_out.rc != 0
+
+      - name: Ensure permissions on bootloader config are configured
+        shell:  'stat -L -c "%a" /boot/grub/grub.cfg | egrep ".00"'
+        register: var17_out
+        ignore_errors: yes
+      - debug:
+          var: var17_out
+      - name: Printinfo
+        local_action: shell echo "Ensure permissions on bootloader config are configured,Yes" >> file
+        when: var17_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure permissions on bootloader config are configured,No" >> file
+        when: var17_out.rc != 0      
+
+      - name: Ensure bootloader password is set
+        shell:  'grep "^set superusers" /boot/grub/grub.cfg'
+        register: var18_out
+        ignore_errors: yes
+      - debug:
+          var: var18_out
+      - name: Printinfo
+        local_action: shell echo "Ensure bootloader password is set,Yes" >> file
+        when: var18_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure bootloader password is set,No" >> file
+        when: var18_out.rc != 0
+
+      - name: Ensure authentication required for single user mode
+        shell:  'grep ^root:[*\!]: /etc/shadow'
+        register: var19_out
+        ignore_errors: yes
+      - debug:
+          var: var19_out
+      - name: Printinfo
+        local_action: shell echo "Ensure authentication required for single user mode,No" >> file
+        when: var19_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure authentication required for single user mode,Yes" >> file
+        when: var19_out.rc != 0  
+      
+      - name: Ensure core dumps are restricted
+        shell:  'grep "* hard core 0" /etc/security/limits.conf'
+        register: var20_out
+        ignore_errors: yes
+      - debug:
+          var: var20_out
+      - name: Printinfo
+        local_action: shell echo "Ensure core dumps are restricted,Yes" >> file
+        when: var20_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure core dumps are restricted,No" >> file
+        when: var20_out.rc != 0
+
+      - name: Ensure core dumps are restricted
+        shell:  sysctl fs.suid_dumpable |grep 0
+        register: var21_out
+        ignore_errors: yes
+      - debug:
+          var: var21_out
+      - name: Printinfo
+        local_action: shell echo "Ensure core dumps are restricted,Yes" >> file
+        when: var21_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure core dumps are restricted,No" >> file
+        when: var21_out.rc != 0   
+      
+      - name: Ensure XD/NX support is enabled
+        shell:  'dmesg | grep NX'
+        register: var22_out
+        ignore_errors: yes
+      - debug:
+          var: var22_out
+      - name: Printinfo
+        local_action: shell echo "Ensure XD/NX support is enabled,Yes" >> file
+        when: var22_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure XD/NX support is enabled,No" >> file
+        when: var22_out.rc != 0  
+
+      - name: Ensure address space layout randomization (ASLR) is enabled 
+        shell:  'sysctl kernel.randomize_va_space | grep 2'
+        register: var23_out
+        ignore_errors: yes
+      - debug:
+          var: var23_out
+      - name: Printinfo
+        local_action: shell echo "Ensure address space layout randomization (ASLR) is enabled ,Yes" >> file
+        when: var23_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure address space layout randomization (ASLR) is enabled ,No" >> file
+        when: var23_out.rc != 0
+
+      - name:  Ensure prelink is disabled
+        shell:  dpkg -s prelink
+        register: var24_out
+        ignore_errors: yes
+      - debug:
+          var: var24_out
+      - name: Printinfo
+        local_action: shell echo " Ensure prelink is disabled,No" >> file
+        when: var24_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo " Ensure prelink is disabled,Yes" >> file
+        when: var24_out.rc != 0   
+
+      - name:  Ensure SELinux is not disabled in bootloader configuration 
+        shell:  'grep SELINUX=enforcing /etc/selinux/config'
+        register: var25_out
+        ignore_errors: yes
+      - debug:
+          var: var25_out
+      - name: Printinfo
+        local_action: shell echo " Ensure SELinux is not disabled in bootloader configuration,Yes" >> file
+        when: var25_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo " Ensure SELinux is not disabled in bootloader configuration,No" >> file
+        when: var25_out.rc != 0   
