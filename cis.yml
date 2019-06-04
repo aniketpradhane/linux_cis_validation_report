@@ -795,3 +795,302 @@
       - name: Printinfo
         local_action: shell echo "Ensure SNMP Server is not enabled,No" >> file
         when: var49_out.rc != 0    
+      
+      - name: Ensure mail transfer agent is configured for local-only mode | install postfix
+        shell: 'dpkg -s postfix'
+        register: var50_out
+        ignore_errors: yes
+      - debug:
+          var: var50_out
+      - name: Printinfo
+        local_action: shell echo "Ensure mail transfer agent is configured for local-only mode | install postfix,Yes" >> file
+        when: var50_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure mail transfer agent is configured for local-only mode | install postfix,No" >> file
+        when: var50_out.rc != 0
+
+
+      - name: Ensure mail transfer agent is configured for local-only mode | file check
+        shell: 'netstat -an | grep LIST | grep ":25[[:space:]]"'
+        register: var51_out
+        ignore_errors: yes
+      - debug:
+          var: var51_out
+      - name: Printinfo
+        local_action: shell echo "Ensure mail transfer agent is configured for local-only mode | file check,Yes" >> file
+        when: var51_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure mail transfer agent is configured for local-only mode | file check,No" >> file
+        when: var51_out.rc != 0
+
+
+      - name:  Ensure rsh server is not enabled | rsh.socket
+        shell: 'grep ^shell /etc/inetd.conf'
+        register: var52_out
+        ignore_errors: yes
+      - debug:
+          var: var52_out
+      - name: Printinfo
+        local_action: shell echo "Ensure rsh server is not enabled | rsh.socket,No" >> file
+        when: var52_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure rsh server is not enabled | rsh.socket,Yes" >> file
+        when: var52_out.rc != 0
+
+
+      
+      - name: Ensure rsh server is not enabled | rlogin.socket
+        shell: 'grep ^login /etc/inetd.conf'
+        register: var53_out
+        ignore_errors: yes
+      - debug:
+          var: var53_out
+      - name: Printinfo
+        local_action: shell echo "Ensure rsh server is not enabled | rlogin.socket,No" >> file
+        when: var53_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure rsh server is not enabled | rlogin.socket,Yes" >> file
+        when: var53_out.rc != 0
+
+
+      - name: Ensure rsh server is not enabled | rexec.socket
+        shell: 'grep ^exec /etc/inetd.conf'
+        register: var54_out
+        ignore_errors: yes
+      - debug:
+          var: var54_out
+      - name: Printinfo
+        local_action: shell echo "Ensure rsh server is not enabled | rexec.socket,No" >> file
+        when: var54_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure rsh server is not enabled | rexec.socket,Yes" >> file
+        when: var54_out.rc != 0
+
+      - name: Ensure NIS Server is not enabled
+        shell: 'dpkg -s nis'
+        register: var55_out
+        ignore_errors: yes
+      - debug:
+          var: var55_out
+      - name: Printinfo
+        local_action: shell echo "Ensure NIS Server is not enabled,Yes" >> file
+        when: var55_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure NIS Server is not enabled,No" >> file
+        when: var55_out.rc != 0
+
+  
+
+      - name:  Ensure telnet server is not enabled
+        shell: 'grep ^telnet /etc/inetd.conf'
+        register: var56_out
+        ignore_errors: yes
+      - debug:
+          var: var56_out
+      - name: Printinfo
+        local_action: shell echo "Ensure telnet server is not enabled,No" >> file
+        when: var56_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure telnet server is not enabled,Yes" >> file
+        when: var56_out.rc != 0
+
+
+      - name: Ensure tftp server is not enabled
+        shell: 'grep ^tftp /etc/inetd.conf'
+        register: var57_out
+        ignore_errors: yes
+      - debug:
+          var: var57_out
+      - name: Printinfo
+        local_action: shell echo "Ensure tftp server is not enabled,No" >> file
+        when: var57_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure tftp server is not enabled,Yes" >> file
+        when: var57_out.rc != 0
+
+      - name: Ensure rsync service is not enabled
+        shell: 'grep ^RSYNC_ENABLE=false /etc/default/rsync'
+        register: var58_out
+        ignore_errors: yes
+      - debug:
+          var: var58_out
+      - name: Printinfo
+        local_action: shell echo "Ensure rsync service is not enabled,Yes" >> file
+        when: var58_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure rsync service is not enabled,No" >> file
+        when: var58_out.rc != 0
+
+
+      - name:  Ensure talk service is not enabled
+        shell: 'grep ^talk /etc/inetd.conf'
+        register: var59_out
+        ignore_errors: yes
+      - debug:
+          var: var59_out
+      - name: Printinfo
+        local_action: shell echo "Ensure talk service is not enabled,No" >> file
+        when: var59_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure talk service is not enabled,Yes" >> file
+        when: var59_out.rc != 0 
+
+
+      - name: Ensure NIS Server is not enabled
+        shell: 'dpkg -s nis-client'
+        register: var60_out
+        ignore_errors: yes
+      - debug:
+          var: var60_out
+      - name: Printinfo
+        local_action: shell echo "Ensure NIS client is not enabled,Yes" >> file
+        when: var60_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure NIS client is not enabled,No" >> file
+        when: var60_out.rc != 0   
+
+     
+      - name: Ensure rsh-client is not enabled
+        shell: ' dpkg -s rsh-client'
+        register: var60_out
+        ignore_errors: yes
+      - debug:
+          var: var60_out
+      - name: Printinfo
+        local_action: shell echo "Ensure rsh-client is not enabled,Yes" >> file
+        when: var60_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure rsh-client is not enabled,No" >> file
+        when: var60_out.rc != 0   
+
+      - name: Ensure talk client is not enabled
+        shell: 'dpkg -s talk'
+        register: var61_out
+        ignore_errors: yes
+      - debug:
+          var: var61_out
+      - name: Printinfo
+        local_action: shell echo "Ensure talk client is not enabled,Yes" >> file
+        when: var61_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure talk client is not enabled,No" >> file
+        when: var61_out.rc != 0
+
+      - name: Ensure telnet client is not enabled
+        shell: 'dpkg -s telnet'
+        register: var62_out
+        ignore_errors: yes
+      - debug:
+          var: var62_out
+      - name: Printinfo
+        local_action: shell echo "Ensure telnet client is not enabled,Yes" >> file
+        when: var62_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure telnet client is not enabled,No" >> file
+        when: var62_out.rc != 0
+
+      - name: Ensure ldap client is not enabled
+        shell: 'dpkg -s ldap-utils'
+        register: var63_out
+        ignore_errors: yes
+      - debug:
+          var: var63_out
+      - name: Printinfo
+        local_action: shell echo "Ensure ldap client is not enabled,Yes" >> file
+        when: var63_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure ldap client is not enabled,No" >> file
+        when: var63_out.rc != 0   
+
+
+      - name: Ensure IP forwarding is disabled
+        shell: 'grep -E "net.ipv4.ip_forward=0" /etc/sysctl.conf'
+        register: var64_out
+        ignore_errors: yes
+      - debug:
+          var: var64_out
+      - name: Printinfo
+        local_action: shell echo "Ensure IP forwarding is disabled,Yes" >> file
+        when: var64_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure IP forwarding is disabled,No" >> file
+        when: var64_out.rc != 0      
+
+
+      - name: Ensure packet redirect sending is disabled
+        shell: 'grep -E "net.ipv4.conf.all.send_redirects=0|net.ipv4.conf.default.send_redirects=0" /etc/sysctl.conf'
+        register: var65_out
+        ignore_errors: yes
+      - debug:
+          var: var65_out
+      - name: Printinfo
+        local_action: shell echo "Ensure packet redirect sending is disabled,Yes" >> file
+        when: var65_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure packet redirect sending is disabled,No" >> file
+        when: var65_out.rc != 0 
+
+      - name: Ensure source routed packets are not accepted
+        shell: 'grep -E "net.ipv4.conf.all.accept_source_route=0|net.ipv4.conf.default.accept_source_route=0" /etc/sysctl.conf'
+        register: var66_out
+        ignore_errors: yes
+      - debug:
+          var: var66_out
+      - name: Printinfo
+        local_action: shell echo "Ensure source routed packets are not accepted,Yes" >> file
+        when: var66_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure source routed packets are not accepted,No" >> file
+        when: var66_out.rc != 0 
+
+      - name: Ensure ICMP redirects are not accepted
+        shell: 'grep -E "net.ipv4.conf.all.accept_redirects=0|net.ipv4.conf.default.accept_redirects=0" /etc/sysctl.conf'
+        register: var67_out
+        ignore_errors: yes
+      - debug:
+          var: var67_out
+      - name: Printinfo
+        local_action: shell echo "Ensure ICMP redirects are not accepted,Yes" >> file
+        when: var67_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure ICMP redirects are not accepted,No" >> file
+        when: var67_out.rc != 0
+
+      - name:  Ensure secure ICMP redirects are not accepted
+        shell: 'grep -E "net.ipv4.conf.all.secure_redirects=0|net.ipv4.conf.default.secure_redirects=0" /etc/sysctl.conf'
+        register: var68_out
+        ignore_errors: yes
+      - debug:
+          var: var68_out
+      - name: Printinfo
+        local_action: shell echo "Ensure ICMP redirects are not accepted,Yes" >> file
+        when: var68_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure ICMP redirects are not accepted,No" >> file
+        when: var68_out.rc != 0
+
+      - name:  Ensure suspicious packets are logged 
+        shell: 'grep -E "net.ipv4.conf.all.log_martians=1|net.ipv4.conf.default.log_martians=1" /etc/sysctl.conf'
+        register: var69_out
+        ignore_errors: yes
+      - debug:
+          var: var69_out
+      - name: Printinfo
+        local_action: shell echo "Ensure suspicious packets are logged,Yes" >> file
+        when: var69_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure suspicious packets are logged,No" >> file
+        when: var69_out.rc != 0        
+
+      - name: Ensure broadcast ICMP requests are ignored 
+        shell: 'grep -E "net.ipv4.icmp_echo_ignore_broadcasts=1" /etc/sysctl.conf'
+        register: var70_out
+        ignore_errors: yes
+      - debug:
+          var: var70_out
+      - name: Printinfo
+        local_action: shell echo "Ensure broadcast ICMP requests are ignored,Yes" >> file
+        when: var70_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure broadcast ICMP requests are ignored,No" >> file
+        when: var70_out.rc != 0    
