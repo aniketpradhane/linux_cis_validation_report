@@ -1941,4 +1941,97 @@
       - name: Printinfo
         local_action: shell echo "Ensure SSH warning banner is configured,No" >> file
         when: var133_out.rc != 0
-    
+   
+            
+      - name: Ensure password creation requirements are configured
+        shell: 'grep pam_cracklib.so /etc/pam.d/common-password'
+        register: var134_out
+        ignore_errors: yes
+      - debug:
+          var: var134_out
+      - name: Printinfo
+        local_action: shell echo "Ensure password creation requirements are configured,Yes" >> file
+        when: var134_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure password creation requirements are configured,No" >> file
+        when: var134_out.rc != 0
+
+
+      - name: Ensure lockout for failed password attempts is configured
+        shell: 'grep "pam_tally2" /etc/pam.d/login'
+        register: var135_out
+        ignore_errors: yes
+      - debug:
+          var: var135_out
+      - name: Printinfo
+        local_action: shell echo "Ensure lockout for failed password attempts is configured,Yes" >> file
+        when: var135_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure lockout for failed password attempts is configured,No" >> file
+        when: var135_out.rc != 0
+
+
+      - name: Ensure password reuse is limited
+        shell: 'grep "remember" /etc/pam.d/common-password'
+        register: var136_out
+        ignore_errors: yes
+      - debug:
+          var: var136_out
+      - name: Printinfo
+        local_action: shell echo "Ensure password reuse is limited,Yes" >> file
+        when: var136_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure password reuse is limited,No" >> file
+        when: var136_out.rc != 0        
+
+      - name: Ensure password expiration is 90 days
+        shell: 'grep -E "PASS_MAX_DAYS\s+90" /etc/login.defs'
+        register: var137_out
+        ignore_errors: yes
+      - debug:
+          var: var137_out
+      - name: Printinfo
+        local_action: shell echo "Ensure password expiration is 90 days,Yes" >> file
+        when: var137_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure password expiration is 90 days,No" >> file
+        when: var137_out.rc != 0        
+
+      - name: Ensure minimum days between password changes is 7 
+        shell: 'grep -E "PASS_MIN_DAYS\s+7" /etc/login.defs'
+        register: var138_out
+        ignore_errors: yes
+      - debug:
+          var: var138_out
+      - name: Printinfo
+        local_action: shell echo "Ensure minimum days between password changes is 7,Yes" >> file
+        when: var138_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure minimum days between password changes is 7,No" >> file
+        when: var138_out.rc != 0 
+
+      - name: Ensure password expiration warning days is 7 or more
+        shell: 'grep -E "PASS_WARN_AGE\s+7" /etc/login.defs'
+        register: var139_out
+        ignore_errors: yes
+      - debug:
+          var: var139_out
+      - name: Printinfo
+        local_action: shell echo "Ensure password expiration warning days is 7 or more,Yes" >> file
+        when: var139_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure password expiration warning days is 7 or more,No" >> file
+        when: var139_out.rc != 0 
+
+      - name: Ensure inactive password lock is 30 days or less
+        shell: 'useradd -D | grep INACTIVE=30'
+        register: var140_out
+        ignore_errors: yes
+      - debug:
+          var: var140_out
+      - name: Printinfo
+        local_action: shell echo "Ensure inactive password lock is 30 days or less,Yes" >> file
+        when: var140_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure inactive password lock is 30 days or less,No" >> file
+        when: var140_out.rc != 0                            
