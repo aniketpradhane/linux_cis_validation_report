@@ -1408,3 +1408,537 @@
       - name: Printinfo
         local_action: shell echo "Ensure auditing for processes that start prior to auditd is enabled,No" >> file
         when: var93_out.rc != 0   
+     
+          
+      - name: Configure audit.logs 1
+        shell: 'grep time-change /etc/audit/audit.rules'
+        register: var94_out
+        ignore_errors: yes
+      - debug:
+          var: var94_out
+      - name: Printinfo
+        local_action: shell echo "Configure audit.logs  time change,Yes" >> file
+        when: var94_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Configure audit.logs  time change,No" >> file
+        when: var94_out.rc != 0 
+
+
+      - name: Configure audit.logs 2
+        shell: 'grep identity /etc/audit/audit.rules'
+        register: var95_out
+        ignore_errors: yes
+      - debug:
+          var: var95_out
+      - name: Printinfo
+        local_action: shell echo "Configure audit.logs identity,Yes" >> file
+        when: var95_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Configure audit.logs identity,No" >> file
+        when: var95_out.rc != 0    
+
+      - name: Configure audit.logs 3
+        shell: 'grep system-locale /etc/audit/audit.rules'
+        register: var96_out
+        ignore_errors: yes
+      - debug:
+          var: var96_out
+      - name: Printinfo
+        local_action: shell echo "Configure audit.logs system-locale,Yes" >> file
+        when: var96_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Configure audit.logs system-locale,No" >> file
+        when: var96_out.rc != 0 
+
+      - name: Configure audit.logs 4 
+        shell: 'grep MAC-policy /etc/audit/audit.rules'
+        register: var97_out
+        ignore_errors: yes
+      - debug:
+          var: var97_out
+      - name: Printinfo
+        local_action: shell echo "Configure audit.logs MAC-policy,Yes" >> file
+        when: var97_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Configure audit.logs  MAC-policy,No" >> file
+        when: var97_out.rc != 0        
+
+      - name:  Configure audit.logs 5
+        shell: 'grep logins /etc/audit/audit.rules'
+        register: var98_out
+        ignore_errors: yes
+      - debug:
+          var: var98_out
+      - name: Printinfo
+        local_action: shell echo "Configure audit.logs logins,Yes" >> file
+        when: var98_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Configure audit.logs logins,No" >> file
+        when: var98_out.rc != 0 
+
+
+      - name:  Configure audit.logs 6
+        shell: 'grep session /etc/audit/audit.rules'
+        register: var99_out
+        ignore_errors: yes
+      - debug:
+          var: var99_out
+      - name: Printinfo
+        local_action: shell echo "Configure audit.logs session,Yes" >> file
+        when: var99_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Configure audit.logs session,No" >> file
+        when: var99_out.rc != 0 
+
+      - name: Configure audit.logs 7
+        shell: 'grep perm_mod /etc/audit/audit.rules'
+        register: var100_out
+        ignore_errors: yes
+      - debug:
+          var: var100_out
+      - name: Printinfo
+        local_action: shell echo "Configure audit.logs perm_mod,Yes" >> file
+        when: var100_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Configure audit.logs perm_mod,No" >> file
+        when: var100_out.rc != 0
+
+      - name: Configure audit.logs 8
+        shell: 'grep access /etc/audit/audit.rules'
+        register: var101_out
+        ignore_errors: yes
+      - debug:
+          var: var101_out
+      - name: Printinfo
+        local_action: shell echo "Configure audit.logs access,Yes" >> file
+        when: var101_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Configure audit.logs access,No" >> file
+        when: var101_out.rc != 0
+      
+
+      - name: Ensure rsys log installed
+        shell: 'dpkg -s rsyslog'
+        register: var102_out
+        ignore_errors: yes
+      - debug:
+          var: var102_out
+      - name: Printinfo
+        local_action: shell echo "Ensure rsys log installed,Yes" >> file
+        when: var102_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure rsys log installed,No" >> file
+        when: var102_out.rc != 0  
+       
+
+      - name:  Ensure rsyslog Service is enabled
+        shell: 'grep "^start" /etc/init/rsyslog.conf'
+        register: var103_out
+        ignore_errors: yes
+      - debug:
+          var: var103_out
+      - name: Printinfo
+        local_action: shell echo "Ensure rsyslog Service is enabled,Yes" >> file
+        when: var103_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure rsyslog Service is enabled,No" >> file
+        when: var103_out.rc != 0
+
+
+      - name: Ensure rsyslog is configured to send logs to a remote log host
+        shell: 'grep "^*.*[^I][^I]*@" /etc/rsyslog.conf'
+        register: var104_out
+        ignore_errors: yes
+      - debug:
+          var: var104_out
+      - name: Printinfo
+        local_action: shell echo "Ensure rsyslog is configured to send logs to a remote log host,Yes" >> file
+        when: var104_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure rsyslog is configured to send logs to a remote log host,No" >> file
+        when: var104_out.rc != 0
+  
+      - name: Ensure remote rsyslog messages are only accepted on designated log hosts
+        shell: 'grep -E "$ModLoad\s+imtcp.so|$InputTCPServerRun 514" /etc/rsyslog.conf'
+        register: var105_out
+        ignore_errors: yes
+      - debug:
+          var: var105_out
+      - name: Printinfo
+        local_action: shell echo "Ensure remote rsyslog messages are only accepted on designated log hosts,Yes" >> file
+        when: var105_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure remote rsyslog messages are only accepted on designated log hosts,No" >> file
+        when: var105_out.rc != 0 
+
+          
+      - name:  Ensure cron daemon is enabled
+        shell: '/etc/init.d/cron status | grep -w "active"'
+        register: var106_out
+        ignore_errors: yes
+      - debug:
+          var: var106_out
+      - name: Printinfo
+        local_action: shell echo "Ensure cron daemon is enabled,Yes" >> file
+        when: var106_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure cron daemon is enabled,No" >> file
+        when: var106_out.rc != 0 
+
+
+      - name: Ensure permissions on /etc/crontab are configured
+        shell: 'stat -c "%a %u %g" /etc/crontab | egrep ".00 0 0"'
+        register: var107_out
+        ignore_errors: yes
+      - debug:
+          var: var107_out
+      - name: Printinfo
+        local_action: shell echo "Ensure permissions on /etc/crontab are configured,Yes" >> file
+        when: var107_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure permissions on /etc/crontab are configured,No" >> file
+        when: var107_out.rc != 0    
+
+      - name: Ensure permissions on /etc/cron.hourly are configured 
+        shell: 'stat -L -c "%a %u %g" /etc/cron.hourly | egrep ".00 0 0"'
+        register: var108_out
+        ignore_errors: yes
+      - debug:
+          var: var108_out
+      - name: Printinfo
+        local_action: shell echo "Ensure permissions on /etc/cron.hourly are configured,Yes" >> file
+        when: var108_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure permissions on /etc/cron.hourly are configured,No" >> file
+        when: var108_out.rc != 0 
+
+      - name: Ensure permissions on /etc/cron.daily are configured 
+        shell: 'stat -L -c "%a %u %g" /etc/cron.daily | egrep ".00 0 0"'
+        register: var109_out
+        ignore_errors: yes
+      - debug:
+          var: var109_out
+      - name: Printinfo
+        local_action: shell echo "Ensure permissions on /etc/cron.daily are configured,Yes" >> file
+        when: var109_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure permissions on /etc/cron.daily are configured,No" >> file
+        when: var109_out.rc != 0        
+
+      - name:  Ensure permissions on /etc/cron.weekly are configured
+        shell: 'stat -L -c "%a %u %g" /etc/cron.weekly | egrep ".00 0 0"'
+        register: var110_out
+        ignore_errors: yes
+      - debug:
+          var: var110_out
+      - name: Printinfo
+        local_action: shell echo "Ensure permissions on /etc/cron.weekly are configured,Yes" >> file
+        when: var110_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure permissions on /etc/cron.weekly are configured,No" >> file
+        when: var110_out.rc != 0 
+
+
+      - name: Ensure permissions on /etc/cron.monthly are configured 
+        shell: 'stat -L -c "%a %u %g" /etc/cron.monthly | egrep ".00 0 0"'
+        register: var111_out
+        ignore_errors: yes
+      - debug:
+          var: var111_out
+      - name: Printinfo
+        local_action: shell echo "Ensure permissions on /etc/cron.monthly are configured,Yes" >> file
+        when: var111_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure permissions on /etc/cron.monthly are configured,No" >> file
+        when: var111_out.rc != 0 
+
+      - name: Ensure permissions on /etc/cron.d are configured
+        shell: 'stat -L -c "%a %u %g" /etc/cron.d | egrep ".00 0 0"'
+        register: var112_out
+        ignore_errors: yes
+      - debug:
+          var: var112_out
+      - name: Printinfo
+        local_action: shell echo "Ensure permissions on /etc/cron.d are configured,Yes" >> file
+        when: var112_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure permissions on /etc/cron.d are configured,No" >> file
+        when: var112_out.rc != 0
+
+      - name: Ensure at/cron is restricted to authorized users | at allow
+        shell: '/bin/ls -l /etc/at.allow | grep "\-rw\-\-\-\-\-"'
+        register: var113_out
+        ignore_errors: yes
+      - debug:
+          var: var113_out
+      - name: Printinfo
+        local_action: shell echo "Ensure at/cron is restricted to authorized users | at allow,Yes" >> file
+        when: var113_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure at/cron is restricted to authorized users | at allow,No" >> file
+        when: var113_out.rc != 0
+      
+      - name: Ensure at/cron is restricted to authorized users | cron allow
+        shell: '/bin/ls -l /etc/cron.allow | grep "\-rw\-\-\-\-\-"'
+        register: var114_out
+        ignore_errors: yes
+      - debug:
+          var: var114_out
+      - name: Printinfo
+        local_action: shell echo "Ensure at/cron is restricted to authorized users | cron allow,Yes" >> file
+        when: var114_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure at/cron is restricted to authorized users | cron allow,No" >> file
+        when: var114_out.rc != 0   
+
+          
+      - name: Check if ssh is installed 
+        shell: 'dpkg -s openssh-server'
+        register: var115_out
+        ignore_errors: yes
+      - debug:
+          var: var115_out
+      - name: Printinfo
+        local_action: shell echo "Check if ssh is installed,Yes" >> file
+        when: var115_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Check if ssh is installed,No" >> file
+        when: var115_out.rc != 0 
+
+      - name:  Ensure permissions on /etc/ssh/sshd_config are configured 
+        shell: '/bin/ls -l /etc/ssh/sshd_config | grep "^-rw-------"'
+        register: var116_out
+        ignore_errors: yes
+      - debug:
+          var: var116_out
+      - name: Printinfo
+        local_action: shell echo " Ensure permissions on /etc/ssh/sshd_config are configured,Yes" >> file
+        when: var116_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo " Ensure permissions on /etc/ssh/sshd_config are configured,No" >> file
+        when: var116_out.rc != 0 
+
+ 
+      - name: Ensure SSH Protocol is set to 2  
+        shell: 'grep "^Protocol 2" /etc/ssh/sshd_config'
+        register: var117_out
+        ignore_errors: yes
+      - debug:
+          var: var117_out
+      - name: Printinfo
+        local_action: shell echo "Ensure SSH Protocol is set to 2,Yes" >> file
+        when: var117_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure SSH Protocol is set to 2,No" >> file
+        when: var117_out.rc != 0     
+
+
+      - name: Ensure SSH LogLevel is set to INFO
+        shell: 'grep "^LogLevel INFO" /etc/ssh/sshd_config'
+        register: var118_out
+        ignore_errors: yes
+      - debug:
+          var: var118_out
+      - name: Printinfo
+        local_action: shell echo "Ensure SSH LogLevel is set to INFO,Yes" >> file
+        when: var118_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure SSH LogLevel is set to INFO,No" >> file
+        when: var118_out.rc != 0        
+
+      - name: Ensure SSH X11 forwarding is disabled
+        shell: 'grep "^X11Forwarding no" /etc/ssh/sshd_config'
+        register: var119_out
+        ignore_errors: yes
+      - debug:
+          var: var119_out
+      - name: Printinfo
+        local_action: shell echo "Ensure SSH X11 forwarding is disabled,Yes" >> file
+        when: var119_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure SSH X11 forwarding is disabled,No" >> file
+        when: var119_out.rc != 0        
+
+      - name: Ensure SSH MaxAuthTries is set to 4 or less
+        shell: 'grep "^MaxAuthTries 4" /etc/ssh/sshd_config'
+        register: var120_out
+        ignore_errors: yes
+      - debug:
+          var: var120_out
+      - name: Printinfo
+        local_action: shell echo "Ensure SSH MaxAuthTries is set to 4 or less,Yes" >> file
+        when: var120_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure SSH MaxAuthTries is set to 4 or less,No" >> file
+        when: var120_out.rc != 0        
+
+      - name: Ensure SSH IgnoreRhosts is enabled
+        shell: 'grep "^IgnoreRhosts yes" /etc/ssh/sshd_config'
+        register: var121_out
+        ignore_errors: yes
+      - debug:
+          var: var121_out
+      - name: Printinfo
+        local_action: shell echo "Ensure SSH IgnoreRhosts is enabled,Yes" >> file
+        when: var121_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure SSH IgnoreRhosts is enabled,No" >> file
+        when: var121_out.rc != 0        
+
+      - name: Ensure SSH HostbasedAuthentication is disabled
+        shell: 'grep "^HostbasedAuthentication no" /etc/ssh/sshd_config'
+        register: var122_out
+        ignore_errors: yes
+      - debug:
+          var: var122_out
+      - name: Printinfo
+        local_action: shell echo "Ensure SSH HostbasedAuthentication is disabled,Yes" >> file
+        when: var122_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure SSH HostbasedAuthentication is disabled,No" >> file
+        when: var122_out.rc != 0        
+
+      - name: Ensure SSH root login is disabled
+        shell: 'grep "^PermitRootLogin no" /etc/ssh/sshd_config'
+        register: var123_out
+        ignore_errors: yes
+      - debug:
+          var: var123_out
+      - name: Printinfo
+        local_action: shell echo "Ensure SSH root login is disabled,Yes" >> file
+        when: var123_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure SSH root login is disabled,No" >> file
+        when: var123_out.rc != 0
+
+      - name: Ensure SSH PermitEmptyPasswords is disabled
+        shell: 'grep "^PermitEmptyPasswords no" /etc/ssh/sshd_config'
+        register: var124_out
+        ignore_errors: yes
+      - debug:
+          var: var124_out
+      - name: Printinfo
+        local_action: shell echo "Ensure SSH PermitEmptyPasswords is disabled,Yes" >> file
+        when: var124_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure SSH PermitEmptyPasswords is disabled,No" >> file
+        when: var124_out.rc != 0                
+
+      - name: Ensure SSH PermitUserEnvironment is disabled
+        shell: 'grep "^PermitUserEnvironment no" /etc/ssh/sshd_config'
+        register: var125_out
+        ignore_errors: yes
+      - debug:
+          var: var125_out
+      - name: Printinfo
+        local_action: shell echo "Ensure SSH PermitUserEnvironment is disabled,Yes" >> file
+        when: var125_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure SSH PermitUserEnvironment is disabled,No" >> file
+        when: var125_out.rc != 0
+
+      - name: Ensure only approved MAC algorithms are used
+        shell: 'grep "^Ciphers aes128-ctr,aes192-ctr,aes256-ctr" /etc/ssh/sshd_config'
+        register: var126_out
+        ignore_errors: yes
+      - debug:
+          var: var126_out
+      - name: Printinfo
+        local_action: shell echo "Ensure only approved MAC algorithms are used,Yes" >> file
+        when: var126_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure only approved MAC algorithms are used,No" >> file
+        when: var126_out.rc != 0    
+
+      - name: Ensure SSH Idle Timeout Interval is configured
+        shell: 'grep "^ClientAliveInterval 300" /etc/ssh/sshd_config && grep "^ClientAliveCountMax 0" /etc/ssh/sshd_config'
+        register: var127_out
+        ignore_errors: yes
+      - debug:
+          var: var127_out
+      - name: Printinfo
+        local_action: shell echo "Ensure SSH Idle Timeout Interval is configured,Yes" >> file
+        when: var127_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure SSH Idle Timeout Interval is configured,No" >> file
+        when: var127_out.rc != 0
+
+      - name: Ensure SSH Idle Timeout Interval is configured
+        shell: 'grep "^LoginGraceTime 1m" /etc/ssh/sshd_config'
+        register: var128_out
+        ignore_errors: yes
+      - debug:
+          var: var128_out
+      - name: Printinfo
+        local_action: shell echo "Ensure SSH LoginGraceTime is set to one minute,Yes" >> file
+        when: var128_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure SSH LoginGraceTime is set to one minute,No" >> file
+        when: var128_out.rc != 0
+
+      - name: Ensure SSH access is limited | AllowUsers
+        shell: 'grep "^AllowUsers" /etc/ssh/sshd_config'
+        register: var129_out
+        ignore_errors: yes
+      - debug:
+          var: var129_out
+      - name: Printinfo
+        local_action: shell echo "Ensure SSH access is limited | AllowUsers,Yes" >> file
+        when: var129_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure SSH access is limited | AllowUsers,No" >> file
+        when: var129_out.rc != 0
+     
+      - name: Ensure SSH access is limited | AllowGroups
+        shell: 'grep "^AllowUsers" /etc/ssh/sshd_config'
+        register: var130_out
+        ignore_errors: yes
+      - debug:
+          var: var130_out
+      - name: Printinfo
+        local_action: shell echo "Ensure SSH access is limited | AllowGroups,Yes" >> file
+        when: var130_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure SSH access is limited | AllowGroups,No" >> file
+        when: var130_out.rc != 0
+
+      - name: Ensure SSH access is limited | DenyUsers
+        shell: 'grep "^DenyUsers" /etc/ssh/sshd_config'
+        register: var131_out
+        ignore_errors: yes
+      - debug:
+          var: var131_out
+      - name: Printinfo
+        local_action: shell echo "nsure SSH access is limited | DenyUsers,Yes" >> file
+        when: var131_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "nsure SSH access is limited | DenyUsers,No" >> file
+        when: var131_out.rc != 0
+     
+      - name: Ensure SSH access is limited | DenyGroups
+        shell: 'grep "^DenyGroups" /etc/ssh/sshd_config'
+        register: var132_out
+        ignore_errors: yes
+      - debug:
+          var: var132_out
+      - name: Printinfo
+        local_action: shell echo "Ensure SSH access is limited | DenyGroups,Yes" >> file
+        when: var132_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure SSH access is limited | DenyGroups,No" >> file
+        when: var132_out.rc != 0        
+
+        
+      - name: Ensure SSH warning banner is configured
+        shell: 'grep "^Banner" /etc/ssh/sshd_config'
+        register: var133_out
+        ignore_errors: yes
+      - debug:
+          var: var133_out
+      - name: Printinfo
+        local_action: shell echo "Ensure SSH warning banner is configured,Yes" >> file
+        when: var133_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure SSH warning banner is configured,No" >> file
+        when: var133_out.rc != 0
+    
