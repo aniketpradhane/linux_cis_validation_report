@@ -1094,3 +1094,317 @@
       - name: Printinfo
         local_action: shell echo "Ensure broadcast ICMP requests are ignored,No" >> file
         when: var70_out.rc != 0    
+    
+
+
+      - name: Ensure bogus ICMP responses are ignored 
+        shell: 'grep -E "net.ipv4.icmp_ignore_bogus_error_responses=1" /etc/sysctl.conf'
+        register: var71_out
+        ignore_errors: yes
+      - debug:
+          var: var71_out
+      - name: Printinfo
+        local_action: shell echo "Ensure bogus ICMP responses are ignored,Yes" >> file
+        when: var71_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure bogus ICMP responses are ignored,No" >> file
+        when: var71_out.rc != 0 
+      
+      - name: Ensure Reverse Path Filtering is enabled 
+        shell: 'grep -E "net.ipv4.conf.all.rp_filter=1|net.ipv4.conf.default.rp_filter=1" /etc/sysctl.conf'
+        register: var72_out
+        ignore_errors: yes
+      - debug:
+          var: var72_out
+      - name: Printinfo
+        local_action: shell echo "Ensure Reverse Path Filtering is enabled,Yes" >> file
+        when: var72_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure Reverse Path Filtering is enabled,No" >> file
+        when: var72_out.rc != 0         
+
+
+      - name: Ensure TCP SYN Cookies is enabled
+        shell: 'grep -E "net.ipv4.tcp_syncookies=1" /etc/sysctl.conf'
+        register: var73_out
+        ignore_errors: yes
+      - debug:
+          var: var73_out
+      - name: Printinfo
+        local_action: shell echo "Ensure TCP SYN Cookies is enabled,Yes" >> file
+        when: var73_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure TCP SYN Cookies is enabled,No" >> file
+        when: var73_out.rc != 0
+
+
+      - name: Ensure IPv6 router advertisements are not accepted 
+        shell: 'grep -E "net.ipv6.conf.all.accept_ra=0|net.ipv6.conf.default.accept_ra=0" /etc/sysctl.conf'
+        register: var74_out
+        ignore_errors: yes
+      - debug:
+          var: var74_out
+      - name: Printinfo
+        local_action: shell echo "Ensure IPv6 router advertisements are not accepted,Yes" >> file
+        when: var74_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure IPv6 router advertisements are not accepted,No" >> file
+        when: var74_out.rc != 0
+
+
+      - name: Ensure IPv6 redirects are not accepted 
+        shell: 'grep -E "net.ipv6.conf.all.accept_redirects=0|net.ipv6.conf.default.accept_redirects=0" /etc/sysctl.conf'
+        register: var75_out
+        ignore_errors: yes
+      - debug:
+          var: var75_out
+      - name: Printinfo
+        local_action: shell echo "Ensure IPv6 redirects are not accepted,Yes" >> file
+        when: var75_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure IPv6 redirects are not accepted,No" >> file
+        when: var75_out.rc != 0
+
+
+      - name: Ensure IPv6 is disabled
+        shell: 'grep -E "net.ipv6.conf.all.disable_ipv6=1|net.ipv6.conf.default.disable_ipv6=1|net.ipv6.conf.lo.disable_ipv6=1" /etc/sysctl.conf'
+        register: var76_out
+        ignore_errors: yes
+      - debug:
+          var: var76_out
+      - name: Printinfo
+        local_action: shell echo "Ensure IPv6 is disabled,Yes" >> file
+        when: var76_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure IPv6 is disabled,No" >> file
+        when: var76_out.rc != 0
+
+      - name: Ensure TCP Wrappers is installed
+        shell: 'dpkg -s tcpd'
+        register: var77_out
+        ignore_errors: yes
+      - debug:
+          var: var77_out
+      - name: Printinfo
+        local_action: shell echo "Ensure TCP Wrappers is installed,Yes" >> file
+        when: var77_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure TCP Wrappers is installed,No" >> file
+        when: var77_out.rc != 0
+
+
+      - name: Ensure /etc/hosts.allow is configured
+        shell: 'ls -lart /etc/hosts.allow'
+        register: var78_out
+        ignore_errors: yes
+      - debug:
+          var: var78_out
+      - name: Printinfo
+        local_action: shell echo "Ensure /etc/hosts.allow is configured,Yes" >> file
+        when: var78_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure /etc/hosts.allow is configured,No" >> file
+        when: var78_out.rc != 0  
+
+
+      - name: Ensure /etc/hosts.deny is configured
+        shell: 'ls -lart /etc/hosts.deny'
+        register: var79_out
+        ignore_errors: yes
+      - debug:
+          var: var79_out
+      - name: Printinfo
+        local_action: shell echo "Ensure /etc/hosts.deny is configured,Yes" >> file
+        when: var79_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure /etc/hosts.deny is configured,No" >> file
+        when: var79_out.rc != 0  
+
+      - name: Ensure permissions on /etc/hosts.allow are configured
+        shell: '/bin/ls -l /etc/hosts.allow | grep "\-rw\-r\-\-r\-\-"'
+        register: var80_out
+        ignore_errors: yes
+      - debug:
+          var: var80_out
+      - name: Printinfo
+        local_action: shell echo "Ensure permissions on /etc/hosts.allow are configured,Yes" >> file
+        when: var80_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure permissions on /etc/hosts.allow are configured,No" >> file
+        when: var80_out.rc != 0 
+      
+
+      - name:  Ensure permissions on /etc/hosts.deny are configured
+        shell: '/bin/ls -l /etc/hosts.deny | grep "\-rw\-r\-\-r\-\-"'
+        register: var81_out
+        ignore_errors: yes
+      - debug:
+          var: var81_out
+      - name: Printinfo
+        local_action: shell echo "Ensure permissions on /etc/hosts.deny are configured,Yes" >> file
+        when: var81_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure permissions on /etc/hosts.deny are configured,No" >> file
+        when: var81_out.rc != 0       
+     
+          
+      - name: Ensures /etc/modprobe.d/ exists
+        shell: '/bin/ls -l /etc/modprobe.d/'
+        register: var82_out
+        ignore_errors: yes
+      - debug:
+          var: var82_out
+      - name: Printinfo
+        local_action: shell echo "Ensures /etc/modprobe.d/ exists,Yes" >> file
+        when: var82_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensures /etc/modprobe.d/ exists,No" >> file
+        when: var82_out.rc != 0 
+
+
+      - name: Disable DCCP
+        shell: 'grep -w "install dccp /bin/true" /etc/modprobe.d/CIS.conf'
+        register: var83_out
+        ignore_errors: yes
+      - debug:
+          var: var83_out
+      - name: Printinfo
+        local_action: shell echo "Disable DCCP,Yes" >> file
+        when: var83_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Disable DCCP,No" >> file
+        when: var83_out.rc != 0    
+
+      - name: Disable SCTP
+        shell: 'grep -w "install sctp /bin/true" /etc/modprobe.d/CIS.conf'
+        register: var84_out
+        ignore_errors: yes
+      - debug:
+          var: var84_out
+      - name: Printinfo
+        local_action: shell echo "Disable SCTP,Yes" >> file
+        when: var84_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Disable SCTP,No" >> file
+        when: var84_out.rc != 0 
+
+      - name: Disable RDS
+        shell: 'grep -w "install rds /bin/true" /etc/modprobe.d/CIS.conf'
+        register: var85_out
+        ignore_errors: yes
+      - debug:
+          var: var85_out
+      - name: Printinfo
+        local_action: shell echo "Disable RDS,Yes" >> file
+        when: var85_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Disable RDS,No" >> file
+        when: var85_out.rc != 0        
+
+      - name:  Disable TIPC
+        shell: 'grep -w "install tipc /bin/true" /etc/modprobe.d/CIS.conf'
+        register: var86_out
+        ignore_errors: yes
+      - debug:
+          var: var86_out
+      - name: Printinfo
+        local_action: shell echo "Disable TIPC,Yes" >> file
+        when: var86_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Disable TIPC,No" >> file
+        when: var86_out.rc != 0 
+
+
+      - name:  Ensure iptables is installed 
+        shell: 'iptables -L'
+        register: var87_out
+        ignore_errors: yes
+      - debug:
+          var: var87_out
+      - name: Printinfo
+        local_action: shell echo "Ensure iptables is installed,Yes" >> file
+        when: var87_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure iptables is installed,No" >> file
+        when: var87_out.rc != 0 
+
+      - name: Ensure wireless interfaces are disabled 
+        shell: 'find /lib/modules/$(uname -r)/kernel/drivers/net/wireless -name "*.ko"'
+        register: var88_out
+        ignore_errors: yes
+      - debug:
+          var: var88_out
+      - name: Printinfo
+        local_action: shell echo "Ensure wireless interfaces are disabled,Yes" >> file
+        when: var88_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure wireless interfaces are disabled,No" >> file
+        when: var88_out.rc != 0
+
+      - name: Ensure auditd installed
+        shell: 'dpkg -s auditd'
+        register: var89_out
+        ignore_errors: yes
+      - debug:
+          var: var89_out
+      - name: Printinfo
+        local_action: shell echo "Ensure auditd installed,Yes" >> file
+        when: var89_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure auditd installed,No" >> file
+        when: var89_out.rc != 0
+      
+
+      - name: Ensure audit log storage size is configured
+        shell: 'grep "max_log_file = 10" /etc/audit/auditd.conf'
+        register: var90_out
+        ignore_errors: yes
+      - debug:
+          var: var90_out
+      - name: Printinfo
+        local_action: shell echo "Ensure audit log storage size is configured,Yes" >> file
+        when: var90_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure audit log storage size is configured,No" >> file
+        when: var90_out.rc != 0  
+       
+
+      - name:  Ensure system is disabled when audit logs are full
+        shell: 'grep -w "space_left_action = email" -w "action_mail_acct = root" -w "admin_space_left_action = halt" /etc/audit/auditd.conf'
+        register: var91_out
+        ignore_errors: yes
+      - debug:
+          var: var91_out
+      - name: Printinfo
+        local_action: shell echo " Ensure system is disabled when audit logs are full,Yes" >> file
+        when: var91_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo " Ensure system is disabled when audit logs are full,No" >> file
+        when: var91_out.rc != 0
+
+
+      - name: Ensure audit logs are not automatically deleted
+        shell: 'grep -w "max_log_file_action = keep_logs" /etc/audit/auditd.conf'
+        register: var92_out
+        ignore_errors: yes
+      - debug:
+          var: var92_out
+      - name: Printinfo
+        local_action: shell echo "Ensure audit logs are not automatically deleted,Yes" >> file
+        when: var92_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure audit logs are not automatically deleted,No" >> file
+        when: var92_out.rc != 0
+  
+      - name: Ensure auditing for processes that start prior to auditd is enabled
+        shell: 'grep -w "GRUB_CMDLINE_LINUX="audit=1"" /etc/default/grub'
+        register: var93_out
+        ignore_errors: yes
+      - debug:
+          var: var93_out
+      - name: Printinfo
+        local_action: shell echo "Ensure auditing for processes that start prior to auditd is enabled,Yes" >> file
+        when: var93_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure auditing for processes that start prior to auditd is enabled,No" >> file
+        when: var93_out.rc != 0   
