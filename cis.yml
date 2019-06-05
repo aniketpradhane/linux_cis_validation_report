@@ -2035,3 +2035,371 @@
       - name: Printinfo
         local_action: shell echo "Ensure inactive password lock is 30 days or less,No" >> file
         when: var140_out.rc != 0                            
+      
+      - name: Ensure default group for the root account is GID 0 
+        shell: 'grep "^root:" /etc/passwd | cut -f4 -d: | grep "0"'
+        register: var141_out
+        ignore_errors: yes
+      - debug:
+          var: var141_out
+      - name: Printinfo
+        local_action: shell echo "Ensure default group for the root account is GID 0,Yes" >> file
+        when: var141_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure default group for the root account is GID 0,No" >> file
+        when: var141_out.rc != 0  
+            
+      - name: Ensure default group for the root account is GID 0 
+        shell: 'grep "^root:" /etc/passwd | cut -f4 -d: | grep "0"'
+        register: var141_out
+        ignore_errors: yes
+      - debug:
+          var: var141_out
+      - name: Printinfo
+        local_action: shell echo "Ensure default group for the root account is GID 0,Yes" >> file
+        when: var141_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure default group for the root account is GID 0,No" >> file
+        when: var141_out.rc != 0
+
+
+      - name: Ensure default user umask is 027 or more restrictive 
+        shell: 'grep -i "umask\s077" /etc/login.defs'
+        register: var142_out
+        ignore_errors: yes
+      - debug:
+          var: var142_out
+      - name: Printinfo
+        local_action: shell echo "Ensure default user umask is 027 or more restrictive,Yes" >> file
+        when: var142_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure default user umask is 027 or more restrictive,No" >> file
+        when: var142_out.rc != 0
+
+      - name:  Ensure root login is restricted to system console 
+        shell: 'cat /etc/securetty'
+        register: var143_out
+        ignore_errors: yes
+      - debug:
+          var: var143_out
+      - name: Printinfo
+        local_action: shell echo "Ensure root login is restricted to system console,Yes" >> file
+        when: var143_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure root login is restricted to system console,No" >> file
+        when: var143_out.rc != 0         
+
+      - name:  Ensure root login is restricted to system console 
+        shell: 'cat /etc/securetty'
+        register: var143_out
+        ignore_errors: yes
+      - debug:
+          var: var143_out
+      - name: Printinfo
+        local_action: shell echo "Ensure root login is restricted to system console,Yes" >> file
+        when: var143_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure root login is restricted to system console,No" >> file
+        when: var143_out.rc != 0
+
+
+      - name: Ensure access to the su command is restricted 
+        shell: 'grep -E "auth\s+required\s+pam_wheel.so\s+use_uid" /etc/pam.d/su'
+        register: var144_out
+        ignore_errors: yes
+      - debug:
+          var: var144_out
+      - name: Printinfo
+        local_action: shell echo "Ensure access to the su command is restricted,Yes" >> file
+        when: var144_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure access to the su command is restricted,No" >> file
+        when: var144_out.rc != 0
+
+      - name: Ensure permissions on /etc/passwd are configured
+        shell: '/bin/ls -l /etc/passwd | grep "^-rw-r--r--"'
+        register: var145_out
+        ignore_errors: yes
+      - debug:
+          var: var145_out
+      - name: Printinfo
+        local_action: shell echo " Ensure permissions on /etc/passwd are configured,Yes" >> file
+        when: var145_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo " Ensure permissions on /etc/passwd are configured,No" >> file
+        when: var145_out.rc != 0     
+
+      - name: Ensure permissions on /etc/shadow are configured
+        shell: '/bin/ls -l /etc/shadow | grep "^-rw-------"'
+        register: var146_out
+        ignore_errors: yes
+      - debug:
+          var: var146_out
+      - name: Printinfo
+        local_action: shell echo "Ensure permissions on /etc/shadow are configured,Yes" >> file
+        when: var146_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure permissions on /etc/shadow are configured,No" >> file
+        when: var146_out.rc != 0
+
+
+      - name: Ensure permissions on /etc/group are configured
+        shell: '/bin/ls -l /etc/group | grep "^-rw-r--r--"'
+        register: var147_out
+        ignore_errors: yes
+      - debug:
+          var: var147_out
+      - name: Printinfo
+        local_action: shell echo "Ensure permissions on /etc/group are configured,Yes" >> file
+        when: var147_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure permissions on /etc/group are configured,No" >> file
+        when: var147_out.rc != 0 
+
+      - name: Ensure permissions on /etc/gshadow are configured 
+        shell: '/bin/ls -l /etc/gshadow | grep "^-rw-------"'
+        register: var148_out
+        ignore_errors: yes
+      - debug:
+          var: var148_out
+      - name: Printinfo
+        local_action: shell echo "Ensure permissions on /etc/gshadow are configured,Yes" >> file
+        when: var148_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure permissions on /etc/gshadow are configured,No" >> file
+        when: var148_out.rc != 0
+
+      - name: Ensure no unowned files or directories exist 
+        shell: "df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -nouser -ls"
+        register: var149_out
+        ignore_errors: yes
+      - debug:
+          var: var149_out
+      - name: Printinfo
+        local_action: shell echo "Ensure no unowned files or directories exist,Yes" >> file
+        when: var149_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure no unowned files or directories exist,No" >> file
+        when: var149_out.rc != 0
+
+      - name:  Ensure no ungrouped files or directories exis 
+        shell: "df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -nogroup -ls"
+        register: var150_out
+        ignore_errors: yes
+      - debug:
+          var: var150_out
+      - name: Printinfo
+        local_action: shell echo "Ensure no ungrouped files or directories exis,Yes" >> file
+        when: var150_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure no ungrouped files or directories exis,No" >> file
+        when: var150_out.rc != 0
+
+      - name: Ensure no legacy "+" entries exist in /etc/passwd 
+        shell: "/bin/grep '^+:' /etc/passwd"
+        register: var151_out
+        ignore_errors: yes
+      - debug:
+          var: var151_out
+      - name: Printinfo
+        local_action: shell echo "Ensure no legacy "+" entries exist in /etc/passwd,Yes" >> file
+        when: var151_out.rc == 1
+      - name: Printinfo
+        local_action: shell echo "Ensure no legacy "+" entries exist in /etc/passwd,No" >> file
+        when: var151_out.rc != 1
+
+      - name:  Ensure no legacy "+" entries exist in /etc/shadow 
+        shell: "/bin/grep '^+:' /etc/shadow"
+        register: var152_out
+        ignore_errors: yes
+      - debug:
+          var: var152_out
+      - name: Printinfo
+        local_action: shell echo "Ensure no legacy "+" entries exist in /etc/shadow,Yes" >> file
+        when: var152_out.rc == 1
+      - name: Printinfo
+        local_action: shell echo "Ensure no legacy "+" entries exist in /etc/shadow,No" >> file
+        when: var152_out.rc != 1
+
+      - name:  Ensure no legacy "+" entries exist in /etc/group  
+        shell: "/bin/grep '^+:' /etc/group"
+        register: var153_out
+        ignore_errors: yes
+      - debug:
+          var: var153_out
+      - name: Printinfo
+        local_action: shell echo " Ensure no legacy "+" entries exist in /etc/group ,Yes" >> file
+        when: var153_out.rc == 1
+      - name: Printinfo
+        local_action: shell echo " Ensure no legacy "+" entries exist in /etc/group ,No" >> file
+        when: var153_out.rc != 1        
+
+
+      - name: Ensure root PATH Integrity  
+        shell: ./path_integrity_root.sh
+        register: var155_out
+        ignore_errors: yes
+      - debug:
+          var: var155_out
+      - name: Printinfo
+        local_action: shell echo "Ensure root PATH Integrity,Yes" >> file
+        when: var155_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure root PATH Integrity,No" >> file
+        when: var155_out.rc != 0   
+
+      - name:  Ensure users own their home directories 
+        shell: ./user_home_own.sh
+        register: var156_out
+        ignore_errors: yes
+      - debug:
+          var: var156_out
+      - name: Printinfo
+        local_action: shell echo "Ensure users own their home directories,Yes" >> file
+        when: var156_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure users own their home directories,No" >> file
+        when: var156_out.rc != 0
+
+      - name: Ensure users' home directories permissions are 750
+        shell: ./user_home_permision.sh
+        register: var157_out
+        ignore_errors: yes
+      - debug:
+          var: var157_out
+      - name: Printinfo
+        local_action: shell echo "Ensure users' home directories permissions are 750,Yes" >> file
+        when: '"Other" in var157_out.stdout'
+      - name: Printinfo
+        local_action: shell echo "Ensure users' home directories permissions are 750,No" >> file
+        when: var157_out.stdout_lines | length > 0
+
+      - name: Ensure users' dot files are not group or world writable
+        shell: ./dot_check.sh
+        register: var158_out
+        ignore_errors: yes
+      - debug:
+          var: var158_out
+      - name: Printinfo
+        local_action: shell echo "Ensure users' dot files are not group or world writable,Yes" >> file
+        when: var158_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure users' dot files are not group or world writable,No" >> file
+        when: var158_out.rc != 0   
+ 
+      - name: Ensure no users have .forward files
+        shell: ./user_forwardfile.sh
+        register: var159_out
+        ignore_errors: yes
+      - debug:
+          var: var159_out
+      - name: Printinfo
+        local_action: shell echo "Ensure no users have .forward files,Yes" >> file
+        when: var159_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure no users have .forward files,No" >> file
+        when: var159_out.rc != 0
+
+      - name: Ensure no users have .netrc files
+        shell: ./user_netrc_file.sh
+        register: var160_out
+        ignore_errors: yes
+      - debug:
+          var: var160_out
+      - name: Printinfo
+        local_action: shell echo "Ensure no users have .netrc files,Yes" >> file
+        when: var160_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure no users have .netrc files,No" >> file
+        when: var160_out.rc != 0     
+     
+      - name: Ensure no users have .rhosts files
+        shell: ./user_rhost.sh
+        register: var161_out
+        ignore_errors: yes
+      - debug:
+          var: var161_out
+      - name: Printinfo
+        local_action: shell echo "Ensure no users have .rhosts files,Yes" >> file
+        when: var161_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure no users have .rhosts files,No" >> file
+        when: var161_out.rc != 0   
+     
+      - name: Ensure all groups in /etc/passwd exist in /etc/group
+        shell: ./group_check.sh
+        register: var162_out
+        ignore_errors: yes
+      - debug:
+          var: var162_out
+      - name: Printinfo
+        local_action: shell echo "Ensure all groups in /etc/passwd exist in /etc/group,Yes" >> file
+        when: var162_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure all groups in /etc/passwd exist in /etc/group,No" >> file
+        when: var162_out.rc != 0   
+
+      - name: Ensure no duplicate UIDs exist
+        shell: ./duplicate_uid.sh
+        register: var163_out
+        ignore_errors: yes
+      - debug:
+          var: var163_out
+      - name: Printinfo
+        local_action: shell echo "Ensure no duplicate UIDs exist,Yes" >> file
+        when: var163_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure no duplicate UIDs exist,No" >> file
+        when: var163_out.rc != 0  
+     
+      - name: Ensure no duplicate GIDs exist
+        shell: ./duplicate_guid.sh
+        register: var164_out
+        ignore_errors: yes
+      - debug:
+          var: var164_out
+      - name: Printinfo
+        local_action: shell echo "Ensure no duplicate GIDs exist,Yes" >> file
+        when: var164_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure no duplicate GIDs exist,No" >> file
+        when: var164_out.rc != 0   
+      
+      - name: Ensure no duplicate user names exist
+        shell: ./duplicate_user.sh
+        register: var165_out
+        ignore_errors: yes
+      - debug:
+          var: var165_out
+      - name: Printinfo
+        local_action: shell echo "Ensure no duplicate user names exist,Yes" >> file
+        when: var165_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure no duplicate user names exist,No" >> file
+        when: var165_out.rc != 0  
+     
+      - name: Ensure no duplicate group names exist
+        shell: ./duplicate_group.sh
+        register: var166_out
+        ignore_errors: yes
+      - debug:
+          var: var166_out
+      - name: Printinfo
+        local_action: shell echo "Ensure no duplicate group names exist,Yes" >> file
+        when: var166_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure no duplicate group names exist,No" >> file
+        when: var166_out.rc != 0
+
+      - name: Ensure shadow group is empty
+        shell: 'grep ^shadow /etc/group'
+        register: var167_out
+        ignore_errors: yes
+      - debug:
+          var: var167_out
+      - name: Printinfo
+        local_action: shell echo "Ensure shadow group is empty,Yes" >> file
+        when: var167_out.rc == 0
+      - name: Printinfo
+        local_action: shell echo "Ensure shadow group is empty,No" >> file
+        when: var167_out.rc != 0
