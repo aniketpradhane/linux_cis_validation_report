@@ -1,10 +1,16 @@
 ---
  - name: CIS Validation
    hosts: localhost
+   serial: 1
 
 
 
    tasks:
+      
+      - name: Host name
+        local_action: shell echo " CIS Report for {{ inventory_hostname }} " >> file
+        ignore_errors: yes
+
       - name: Ensure mounting of cramfs filesystems is disabled
         shell: /sbin/modprobe -n -v cramfs | grep -i 'install' | cut -d ' ' -f 1
         register: v1_out
