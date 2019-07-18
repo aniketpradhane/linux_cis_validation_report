@@ -6,9 +6,9 @@
 
 
    tasks:
-      
+     
       - name: Host name
-        local_action: shell echo " CIS Report for {{ inventory_hostname }} " >> file
+        local_action: shell echo "============================ CIS Report for {{ inventory_hostname }}====================================" >> file
         ignore_errors: yes
       
       - name: Ensure mounting of cramfs filesystems is disabled
@@ -2242,7 +2242,7 @@
 
 
       - name: Ensure root PATH Integrity  
-        shell: /home/security/CIS/linux_cis_validation_report/path_integrity_root.sh
+        shell: ./path_integrity_root.sh
         register: var155_out
         ignore_errors: yes
       - debug:
@@ -2255,7 +2255,7 @@
         when: var155_out.rc != 0   
 
       - name:  Ensure users own their home directories 
-        shell: /home/security/CIS/linux_cis_validation_report/user_home_own.sh
+        shell: ./user_home_own.sh
         register: var156_out
         ignore_errors: yes
       - debug:
@@ -2268,7 +2268,7 @@
         when: var156_out.rc != 0
 
       - name: Ensure users' home directories permissions are 750
-        shell: /home/security/CIS/linux_cis_validation_report/user_home_permision.sh
+        shell: ./user_home_permision.sh
         register: var157_out
         ignore_errors: yes
       - debug:
@@ -2281,7 +2281,7 @@
         when: var157_out.stdout_lines | length > 0
 
       - name: Ensure users' dot files are not group or world writable
-        shell: /home/security/CIS/linux_cis_validation_report/dot_check.sh
+        shell: ./dot_check.sh
         register: var158_out
         ignore_errors: yes
       - debug:
@@ -2294,7 +2294,7 @@
         when: var158_out.rc != 0   
  
       - name: Ensure no users have .forward files
-        shell: /home/security/CIS/linux_cis_validation_report/user_forwardfile.sh
+        shell: ./user_forwardfile.sh
         register: var159_out
         ignore_errors: yes
       - debug:
@@ -2307,7 +2307,7 @@
         when: var159_out.rc != 0
 
       - name: Ensure no users have .netrc files
-        shell: /home/security/CIS/linux_cis_validation_report/user_netrc_file.sh
+        shell: ./user_netrc_file.sh
         register: var160_out
         ignore_errors: yes
       - debug:
@@ -2320,7 +2320,7 @@
         when: var160_out.rc != 0     
      
       - name: Ensure no users have .rhosts files
-        shell: /home/security/CIS/linux_cis_validation_report/user_rhost.sh
+        shell: ./user_rhost.sh
         register: var161_out
         ignore_errors: yes
       - debug:
@@ -2333,7 +2333,7 @@
         when: var161_out.rc != 0   
      
       - name: Ensure all groups in /etc/passwd exist in /etc/group
-        shell: /home/security/CIS/linux_cis_validation_report/group_check.sh
+        shell: ./group_check.sh
         register: var162_out
         ignore_errors: yes
       - debug:
@@ -2346,7 +2346,7 @@
         when: var162_out.rc != 0   
 
       - name: Ensure no duplicate UIDs exist
-        shell: /home/security/CIS/linux_cis_validation_report/duplicate_uid.sh
+        shell: ./duplicate_uid.sh
         register: var163_out
         ignore_errors: yes
       - debug:
@@ -2359,7 +2359,7 @@
         when: var163_out.rc != 0  
      
       - name: Ensure no duplicate GIDs exist
-        shell: /home/security/CIS/linux_cis_validation_report/duplicate_guid.sh
+        shell: ./duplicate_guid.sh
         register: var164_out
         ignore_errors: yes
       - debug:
@@ -2372,7 +2372,7 @@
         when: var164_out.rc != 0   
       
       - name: Ensure no duplicate user names exist
-        shell: /home/security/CIS/linux_cis_validation_report/duplicate_user.sh
+        shell: ./duplicate_user.sh
         register: var165_out
         ignore_errors: yes
       - debug:
@@ -2385,7 +2385,7 @@
         when: var165_out.rc != 0  
      
       - name: Ensure no duplicate group names exist
-        shell: /home/security/CIS/linux_cis_validation_report/duplicate_group.sh
+        shell: ./duplicate_group.sh
         register: var166_out
         ignore_errors: yes
       - debug:
